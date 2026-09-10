@@ -2,6 +2,15 @@ import streamlit as st
 import pandas as pd
 
 # --------------------------------------------------
+# CONFIGURACIÓN
+# --------------------------------------------------
+
+st.set_page_config(
+    page_title="Encargaturas Vigentes",
+    layout="wide"
+)
+
+# --------------------------------------------------
 # CARGA
 # --------------------------------------------------
 
@@ -12,24 +21,22 @@ df = pd.read_excel(
     sheet_name="ENCARGATURA"
 )
 
-# Limpiar espacios en nombres de columnas
+# Limpiar espacios
 df.columns = df.columns.str.strip()
 
 # --------------------------------------------------
 # FECHAS
 # --------------------------------------------------
 
-# Convertir FIN a fecha
 df["FIN"] = pd.to_datetime(
     df["FIN"],
     errors="coerce"
 )
 
-# Fecha actual (sin hora)
 hoy = pd.Timestamp.today().normalize()
 
 # --------------------------------------------------
-# FILTRO
+# FILTRO FIN VACÍO O MAYOR A HOY
 # --------------------------------------------------
 
 df_filtrado = df[
@@ -59,69 +66,16 @@ columnas = [
     "INICIO"
 ]
 
-# Solo por seguridad
 columnas_existentes = [
     c for c in columnas
     if c in df_filtrado.columns
 ]
 
 # --------------------------------------------------
-# KPI
+# TÍTULO
 # --------------------------------------------------
 
 st.title("⚖️ Encargaturas Vigentes")
 
 st.metric(
-    "Total encargaturas vigentes",
-    len(df_filtrado)
-)
-
-# --------------------------------------------------
-# TABLA
-# --------------------------------------------------
-
-# --------------------------------------------------
-# FILTROS DE BÚSQUEDA
-# --------------------------------------------------
-
-col1, col2 = st.columns(2)
-
-with col1:
-    filtro_procurador = st.text_input(
-        "🔍 Buscar Procurador"
-    )
-
-with col2:
-    filtro_entidad = st.text_input(
-        "🔍 Buscar Entidad"
-    )
-
-# Aplicar filtros
-
-if filtro_procurador:
-
-    df_filtrado = df_filtrado[
-        df_filtrado["NOMBRE DEL PROCURADOR PÚBLICO"]
-        .astype(str)
-        .str.contains(
-            filtro_procurador,
-            case=False,
-            na=False
-        )
-    ]
-
-if filtro_entidad:
-
-    df_filtrado = df_filtrado[
-        df_filtrado["ENTIDAD"]
-        .astype(str)
-        .str.upper()
-        ==
-        filtro_entidad.upper()
-    ]
-
-st.dataframe(
-    df_filtrado[columnas_existentes],
-    use_container_width=True,
-    height=700
-)
+    "Total encargaturas 

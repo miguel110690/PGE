@@ -80,6 +80,48 @@ st.metric(
 # TABLA
 # --------------------------------------------------
 
+# --------------------------------------------------
+# FILTROS DE BÚSQUEDA
+# --------------------------------------------------
+
+col1, col2 = st.columns(2)
+
+with col1:
+    filtro_procurador = st.text_input(
+        "🔍 Buscar Procurador"
+    )
+
+with col2:
+    filtro_entidad = st.text_input(
+        "🔍 Buscar Entidad"
+    )
+
+# Aplicar filtros
+
+if filtro_procurador:
+
+    df_filtrado = df_filtrado[
+        df_filtrado["NOMBRE DEL PROCURADOR PÚBLICO"]
+        .astype(str)
+        .str.contains(
+            filtro_procurador,
+            case=False,
+            na=False
+        )
+    ]
+
+if filtro_entidad:
+
+    df_filtrado = df_filtrado[
+        df_filtrado["ENTIDAD"]
+        .astype(str)
+        .str.contains(
+            filtro_entidad,
+            case=False,
+            na=False
+        )
+    ]
+
 st.dataframe(
     df_filtrado[columnas_existentes],
     use_container_width=True,

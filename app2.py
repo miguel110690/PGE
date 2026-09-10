@@ -153,8 +153,31 @@ st.info(
 
 columnas_mostrar = ["N°"] + columnas_existentes
 
-st.dataframe(
+st.data_editor(
     df_filtrado[columnas_mostrar],
     use_container_width=True,
-    height=700
+    height=700,
+    hide_index=True,
+    disabled=True,
+    column_config={
+        "N°": st.column_config.NumberColumn(
+            width="small"
+        ),
+
+        "ENTIDAD": st.column_config.TextColumn(
+            width="large"
+        ),
+
+        "NOMBRE DEL PROCURADOR PÚBLICO": st.column_config.TextColumn(
+            width="large"
+        ),
+
+        "ENTIDAD ENCARGADA": st.column_config.TextColumn(
+            width="large"
+        ),
+
+        "RESOLUCIÓN_ENCARGATURA": st.column_config.TextColumn(
+            width="large"
+        )
+    }
 )

@@ -21,7 +21,7 @@ df = pd.read_excel(
     sheet_name="ENCARGATURA"
 )
 
-# Limpiar espacios
+# Limpiar nombres de columnas
 df.columns = df.columns.str.strip()
 
 # --------------------------------------------------
@@ -36,7 +36,7 @@ df["FIN"] = pd.to_datetime(
 hoy = pd.Timestamp.today().normalize()
 
 # --------------------------------------------------
-# FILTRO FIN VACÍO O MAYOR A HOY
+# FILTRAR ENCARGATURAS VIGENTES
 # --------------------------------------------------
 
 df_filtrado = df[
@@ -50,7 +50,7 @@ df_filtrado = df[
 ].copy()
 
 # --------------------------------------------------
-# COLUMNAS A MOSTRAR
+# COLUMNAS
 # --------------------------------------------------
 
 columnas = [
@@ -72,7 +72,7 @@ columnas_existentes = [
 ]
 
 # --------------------------------------------------
-# TÍTULO
+# TITULO
 # --------------------------------------------------
 
 st.title("⚖️ Encargaturas Vigentes")
@@ -89,11 +89,13 @@ st.metric(
 col1, col2 = st.columns(2)
 
 with col1:
+
     filtro_procurador = st.text_input(
         "🔍 Buscar Procurador"
     )
 
 with col2:
+
     filtro_entidad = st.text_input(
         "🔍 Buscar Entidad (exacta)"
     )
@@ -133,10 +135,7 @@ df_filtrado = df_filtrado.reset_index(drop=True)
 df_filtrado.insert(
     0,
     "N°",
-    range(
-        1,
-        len(df_filtrado) + 1
-    )
+    range(1, len(df_filtrado) + 1)
 )
 
 # --------------------------------------------------
@@ -144,4 +143,18 @@ df_filtrado.insert(
 # --------------------------------------------------
 
 st.info(
-    f"Registros encontrados
+    "Registros encontrados: "
+    + str(len(df_filtrado))
+)
+
+# --------------------------------------------------
+# TABLA
+# --------------------------------------------------
+
+columnas_mostrar = ["N°"] + columnas_existentes
+
+st.dataframe(
+    df_filtrado[columnas_mostrar],
+    use_container_width=True,
+    height=700
+)

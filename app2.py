@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide"
 )
 
-archivo = "RELACION DE PROCURADORES PÚBLICOS EN FUNCIONES.xlsx"
+archivo = "RELACION DE PROCURADORES PÚBLICOS EN FUNCIONES (59).xlsx"
 
 df = pd.read_excel(archivo)
 

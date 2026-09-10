@@ -115,11 +115,9 @@ if filtro_entidad:
     df_filtrado = df_filtrado[
         df_filtrado["ENTIDAD"]
         .astype(str)
-        .str.contains(
-            filtro_entidad,
-            case=False,
-            na=False
-        )
+        .str.upper()
+        ==
+        filtro_entidad.upper()
     ]
 
 st.dataframe(

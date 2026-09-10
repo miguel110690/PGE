@@ -78,4 +78,6 @@ columnas_existentes = [
 st.title("⚖️ Encargaturas Vigentes")
 
 st.metric(
-    "Total encargaturas 
+    "Total encargaturas vigentes",
+    len(df_filtrado)
+)

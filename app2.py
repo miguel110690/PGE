@@ -151,12 +151,51 @@ st.info(
 # TABLA
 # --------------------------------------------------
 
+# ----------------------------------------
+# TABLA CON AJUSTE DE TEXTO
+# ----------------------------------------
+
 columnas_mostrar = ["N°"] + columnas_existentes
 
-st.data_editor(
-    df_filtrado[columnas_mostrar],
-    use_container_width=True,
-    height=700,
+tabla_html = (
+    df_filtrado[columnas_mostrar]
+    .to_html(
+        index=False,
+        escape=False
+    )
+)
+
+st.markdown("""
+<style>
+
+table {
+    width: 100% !important;
+    font-size: 12px;
+    table-layout: fixed;
+}
+
+th {
+    background-color: #f5f7fa;
+    text-align: left;
+    padding: 8px;
+    white-space: normal !important;
+}
+
+td {
+    padding: 6px;
+    white-space: normal !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    vertical-align: top;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown(
+    tabla_html,
+    unsafe_allow_html=True
+)
     hide_index=True,
     disabled=True,
     column_config={
